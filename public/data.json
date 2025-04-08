@@ -33,30 +33,6 @@
       "fileName": "English_Literature.docx",
       "gender": "M",
       "name": "David Martinez"
-    },
-    {
-      "fileName": "Art_Portfolio.pdf",
-      "gender": "F",
-      "name": "Olivia Garcia"
-    },
-    {
-      "fileName": "Computer_Science_Code.zip",
-      "gender": "M",
-      "name": "James Anderson"
-    },
-    {
-      "fileName": "Economics_Thesis.pdf",
-      "gender": "F",
-      "name": "Isabella Thomas"
-    },
-    {
-      "fileName": "Music_Sheet.pdf",
-      "gender": "M",
-      "name": "William Taylor"
-    },
-    {
-      "fileName": "Geography_Map.docx",
-      "gender": "F",
-      "name": "Mia Moore"
     }
+
 ]
