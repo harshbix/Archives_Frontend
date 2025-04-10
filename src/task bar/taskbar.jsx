@@ -1,5 +1,5 @@
 import React from "react"
-import { Fasearch, FaBell, FaCog } from "react-icons/fa"
+//import { Fasearch, FaBell, FaCog } from "react-icons/fa"
 //import img1 from "./Pictures/Archives logo.png"
 
 const Navbar = () => {
