@@ -68,8 +68,8 @@ const UploadPage = () => {
                     </div>
                 </div>
                 <div className="d-flex">
-                    <button type="button" className="btn btn-secondary me-2">Cancel</button>
-                    <button type="submit" className="btn btn-primary">Upload</button>
+                    <button type="button" className="btn btn-sm me-2">Cancel</button>
+                    <button type="submit" className="btn btn-dark">Upload</button>
                 </div>
             </form>
             <div className="mt-4">
