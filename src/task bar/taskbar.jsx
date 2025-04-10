@@ -1,10 +1,12 @@
 import React from "react"
 import { Fasearch, FaBell, FaCog } from "react-icons/fa"
+//import img1 from "./Pictures/Archives logo.png"
 
 const Navbar = () => {
     return(
         <nav className = "navbar">
             <div className = "navbar-left">
+/*             <img className = "logo" src = {img1} />*/
                 <h2 className = "logo">Archives</h2>
                 <ul className = "nav-links">
                     <li className = "active">Home</li>
