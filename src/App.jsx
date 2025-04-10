@@ -1,5 +1,6 @@
-import taskbar from './task bar/taskbar.jsx'
-
+import React from 'react'
+import './taskbar'
+import 'taskbar.css'
 function App() {
   return (
     <>
