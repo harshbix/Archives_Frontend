@@ -26,17 +26,18 @@ const UploadPage = () => {
             className="container-fluid d-flex justify-content-center align-items-center" 
             style={{ 
                 minHeight: '80vh',
-                overflow: 'hidden'
+                overflow: 'hidden',
             }}
         >
             <div 
-                className="w-100" 
+                className="w-100 p-4 rounded shadow-sm" 
                 style={{ 
-                    maxWidth: '800px'
+                    maxWidth: '800px',
+                    backgroundColor: '#F8FAFC'
                 }}
             >
                 <form onSubmit={handleUpload}>
-                    <h1 className="text-center">Upload Resources</h1>
+                    <h1 className="text-center mb-4">Upload Resources</h1>
                     <div className="row mb-3">
                         <div className="col-md-4">
                             <label htmlFor="year" className="form-label">Year</label>

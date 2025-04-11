@@ -1,12 +1,12 @@
 [
   {
       "fileName": "Document1.pdf",
-      "name": "John Doe",
+      "size": "10.3 MB",
       "fileUrl": "https://via.placeholder.com/150"
   },
   {
       "fileName": "Image1.png",
-      "name": "Jane Smith",
+      "size": "12.5 MB",
       "fileUrl": "https://via.placeholder.com/150"
   }
 ]

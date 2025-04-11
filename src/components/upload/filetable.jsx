@@ -22,7 +22,7 @@ const FileTable = () => {
                 data: files,
                 columns: [
                     { title: "File Name", data: "fileName" },
-                    { title: "Uploaded By", data: "name" },
+                    { title: "File Size", data: "size" },
                     {
                         title: "Actions",
                         data: null,
