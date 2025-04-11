@@ -1,7 +1,6 @@
 import React from "react";
 import { FaSearch, FaCog, FaBell, FaUserCircle } from "react-icons/fa";
-import "./Navbar.css";
-
+import '../../Navbar.css';
 const Navbar = () => {
   return (
     <nav className="navbar">

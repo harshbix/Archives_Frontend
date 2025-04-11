@@ -4,6 +4,7 @@ import FileTable from './filetable';
 
 const UploadPage = () => {
     return (
+        <>
         <div 
             className="container px-4" 
             style={{ 
@@ -76,6 +77,7 @@ const UploadPage = () => {
                 <FileTable />
             </div>
         </div>
+        </>
     );
 };
 
