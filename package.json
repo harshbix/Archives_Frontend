@@ -12,6 +12,9 @@
   "dependencies": {
     "bootstrap": "^5.3.5",
     "datatables.net": "^2.2.2",
+    "datatables.net-bs5": "^2.2.2",
+    "datatables.net-buttons": "^3.2.2",
+    "datatables.net-buttons-dt": "^3.2.2",
     "datatables.net-dt": "^2.2.2",
     "datatables.net-react": "^1.0.0",
     "jquery": "^3.7.1",

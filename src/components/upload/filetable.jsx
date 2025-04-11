@@ -1,53 +1,64 @@
-import React, { useEffect, useState } from "react";
-import DataTable from "datatables.net-react";
-import "datatables.net-dt/css/jquery.dataTables.css";
+import React, { useEffect, useRef, useState } from "react";
+import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+import DT from "datatables.net-bs5";
 
 const FileTable = () => {
-  const [files, setFiles] = useState([]);
+    const [files, setFiles] = useState([]);
+    const tableRef = useRef(null);
 
-  useEffect(() => {
-    fetch("/data.json")
-      .then((res) => res.json())
-      .then((data) => setFiles(data))
-      .catch((err) => console.error("Error loading files:", err));
-  }, []);
+    useEffect(() => {
+        fetch("/data.json")
+            .then((res) => res.json())
+            .then((data) => setFiles(data))
+            .catch((err) => {
+                console.error("Error loading files:", err);
+                setFiles([]);
+            });
+    }, []);
 
-  const columns = [
-    { title: "File Name", data: "fileName" },
-    { title: "Uploaded By", data: "name" },
-    {
-      title: "Actions",
-      data: null,
-      className: "text-center",
-      createdCell: (td, _, rowData) => {
-        const button = document.createElement("button");
-        button.className = "btn btn-dark btn-sm";
-        button.style.borderRadius = "5px";
-        button.textContent = "Download";
+    useEffect(() => {
+        if (files.length > 0) {
+            const table = new DT(tableRef.current, {
+                data: files,
+                columns: [
+                    { title: "File Name", data: "fileName" },
+                    { title: "Uploaded By", data: "name" },
+                    {
+                        title: "Actions",
+                        data: null,
+                        render: (data, type, row) => {
+                            return `
+                                <button 
+                                    class="btn btn-dark btn-sm" 
+                                    style="border-radius: 5px;" 
+                                    onclick="downloadFile('${row.fileUrl}', '${row.fileName}')">
+                                    Download
+                                </button>`;
+                        },
+                    },
+                ],
+            });
 
-        button.onclick = () => {
-          const link = document.createElement("a");
-          link.href = rowData.fileUrl;
-          link.download = rowData.fileName;
-          link.click();
-        };
+            // Cleanup on component unmount
+            return () => {
+                table.destroy();
+            };
+        }
+    }, [files]);
 
-        td.innerHTML = "";
-        td.appendChild(button);
-      },
-    },
-  ];
+    // Handle the file download
+    const downloadFile = (fileUrl, fileName) => {
+        const link = document.createElement("a");
+        link.href = fileUrl;
+        link.download = fileName;
+        link.click();
+    };
 
-  return (
-    <div className="mt-4">
-      <DataTable
-        data={files}
-        columns={columns}
-        className="table table-bordered shadow-sm"
-        style={{ borderRadius: "5px", overflow: "hidden" }}
-      />
-    </div>
-  );
+    return (
+        <div className="mt-4">
+            <table ref={tableRef} className="table table-bordered shadow-sm" style={{ borderRadius: "5px", overflow: "hidden" }}></table>
+        </div>
+    );
 };
 
 export default FileTable;
