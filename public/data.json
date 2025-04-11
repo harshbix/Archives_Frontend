@@ -1,12 +1,12 @@
 [
-    {
-      "fileName": "Math_Course_Syllabus.pdf",
-      "gender": "M",
-      "name": "John Doe"
-    },
-    {
-      "fileName": "Science_Lab_Report.docx",
-      "gender": "F",
-      "name": "John Doe"
-    }
+  {
+      "fileName": "Document1.pdf",
+      "name": "John Doe",
+      "fileUrl": "https://via.placeholder.com/150"
+  },
+  {
+      "fileName": "Image1.png",
+      "name": "Jane Smith",
+      "fileUrl": "https://via.placeholder.com/150"
+  }
 ]
