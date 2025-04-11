@@ -5,7 +5,7 @@ import Login from "./login";
 const App = () => {
     return (
         <div>
-            <Login />
+            <Login/>
         </div>
     );
 };
