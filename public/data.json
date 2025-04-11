@@ -7,32 +7,6 @@
     {
       "fileName": "Science_Lab_Report.docx",
       "gender": "F",
-      "name": "Jane Smith"
-    },
-    {
-      "fileName": "History_Essay.docx",
-      "gender": "M",
-      "name": "Michael Brown"
-    },
-    {
-      "fileName": "Physics_Notes.pdf",
-      "gender": "F",
-      "name": "Emily Davis"
-    },
-    {
-      "fileName": "Chemistry_Experiment.xlsx",
-      "gender": "M",
-      "name": "Chris Wilson"
-    },
-    {
-      "fileName": "Biology_Project.pptx",
-      "gender": "F",
-      "name": "Sophia Johnson"
-    },
-    {
-      "fileName": "English_Literature.docx",
-      "gender": "M",
-      "name": "David Martinez"
+      "name": "John Doe"
     }
-
 ]

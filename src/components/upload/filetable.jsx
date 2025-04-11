@@ -15,10 +15,10 @@ const FileTable = () => {
         <div className="container mt-4">
             <div className="table-responsive">
                 <table
-                    className="table table-bordered shadow-sm"
+                    className="table table-bordered shadow-sm table-responsive-sm"
                     style={{ borderRadius: "5px", overflow: "hidden" }}
                 >
-                    <thead className="table-light">
+                    <thead className="table table-light">
                         <tr>
                             <th>File Name</th>
                             <th>Uploaded By</th>
@@ -30,7 +30,7 @@ const FileTable = () => {
                             <tr key={index}>
                                 <td>{file.fileName}</td>
                                 <td>
-                                    {file.gender} | {file.name}
+                               {file.name}
                                 </td>
                                 <td className="text-center">
                                     <button
