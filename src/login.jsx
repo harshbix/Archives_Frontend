@@ -7,21 +7,39 @@ const Login = () => {
     const [role, setRole] = useState("");
     const [welcomeMessage, setWelcomeMessage] = useState(""); 
 
+    const defaultAdmin = 
+    {
+        "email" : "admin@gmail.com",
+        "password": "1234",
+        "role": "admin"
+    };
+
+    const defaultUser =
+    {
+        "email" : "user@gmail.com",
+        "password" : "12345",
+        "role" : "user"
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         if (!email||!password||!role) {
             alert("Please fill in all fields and select a role");
-            return;
         }
-        if (role === "admin") {
+        else if (email === defaultAdmin.email && password === defaultAdmin.password && role === "admin") {
             setWelcomeMessage("Welcome Admin");
-        }else if (role === "user") {
+        }
+        else if (email === defaultUser.email && password === defaultUser.password && role === "user") {
             setWelcomeMessage("Welcome User");
+        }
+        else
+        {
+            setWelcomeMessage("Wrong credentials, please try again!");
         }
         console.log("Email:",email);
         console.log("Password:",password);
-        console.log("Select Role:",role);
+        console.log("Role:",role);
         
         setEmail("");
         setPassword("");
@@ -47,7 +65,7 @@ const Login = () => {
                     <button type="submit" className="login-button">Log In</button>
                 </form>  
                 {welcomeMessage && (
-                    <p style={{ marginTop: "20px", color: "#4a90e2", fontWeight: "bold", textAlign: "center" }}>
+                    <p style={{ marginTop: "20px", color: "red", textAlign: "center" }}>
                         {welcomeMessage}
                     </p>
                 )}
