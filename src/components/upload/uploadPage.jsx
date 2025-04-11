@@ -1,14 +1,17 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FileTable from './filetable';
+import Navbar from '../navBar/Navbar';
 
 const UploadPage = () => {
     return (
         <>
+        <Navbar />
         <div 
             className="container-fluid d-flex justify-content-center align-items-center" 
             style={{ 
-                minHeight: '100vh' // Full height of the viewport
+                minHeight: '90vh' // Full height of the viewport
+                , overflow: 'hidden'
             }}
         >
             <div 
