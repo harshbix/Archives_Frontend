@@ -37,6 +37,8 @@ const FileTable = () => {
                         },
                     },
                 ],
+                paging: false, // Disable pagination
+                info: false,   // Disable "Showing X to Y of Z entries"
             });
 
             // Cleanup on component unmount
