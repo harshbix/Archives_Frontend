@@ -1,11 +1,9 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FileTable from './filetable';
-import Navbar from '../navBar/Navbar';
 const UploadPage = () => {
     return (
         <>
-        <Navbar/>
         <div 
             className="container px-4" 
             style={{ 
