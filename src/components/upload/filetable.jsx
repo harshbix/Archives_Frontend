@@ -12,7 +12,7 @@ const FileTable = () => {
     }, []);
 
     return (
-        <div className="container mt-4">
+        <div className="mt-4">
             <div className="table-responsive">
                 <table
                     className="table table-bordered shadow-sm table-responsive-sm"
@@ -21,7 +21,7 @@ const FileTable = () => {
                     <thead className="table table-light">
                         <tr>
                             <th>File Name</th>
-                            <th>Uploaded By</th>
+                            <th className="d-none d-sm-table-cell">Uploaded By</th>
                             <th className="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -29,9 +29,7 @@ const FileTable = () => {
                         {files.map((file, index) => (
                             <tr key={index}>
                                 <td>{file.fileName}</td>
-                                <td>
-                               {file.name}
-                                </td>
+                                <td className="d-none d-sm-table-cell">{file.name}</td>
                                 <td className="text-center">
                                     <button
                                         className="btn btn-dark btn-sm"
