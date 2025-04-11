@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// Removed unused import of jQuery
 import DataTable from "datatables.net-react";
 import "datatables.net-dt/css/jquery.dataTables.css";
 
