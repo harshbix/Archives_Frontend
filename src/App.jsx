@@ -4,7 +4,8 @@ import UploadPage from './components/upload/uploadPage';
 
 function App() {
   return (
-    <>
+    <>  
+    <UploadPage />
     </>
   );
 }
