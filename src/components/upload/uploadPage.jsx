@@ -1,26 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { FaUpload } from 'react-icons/fa';
 import FileTable from './filetable';
 import Navbar from '../navBar/Navbar';
 
 const UploadPage = () => {
+    const [fileName, setFileName] = useState('');
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setFileName(file ? file.name : '');
+    };
+
+    const handleUpload = (event) => {
+        event.preventDefault();
+        // Add your upload logic here
+        console.log('File uploaded:', fileName);
+        setFileName(''); // Clear the file input after upload
+    };
+
     return (
         <>
         <Navbar />
         <div 
             className="container-fluid d-flex justify-content-center align-items-center" 
             style={{ 
-                minHeight: '90vh' // Full height of the viewport
-                , overflow: 'hidden'
+                minHeight: '80vh',
+                overflow: 'hidden'
             }}
         >
             <div 
                 className="w-100" 
                 style={{ 
-                    maxWidth: '800px' // Centered and constrained width on large screens
+                    maxWidth: '800px'
                 }}
             >
-                <form>
+                <form onSubmit={handleUpload}>
                     <h1 className="text-center">Upload Resources</h1>
                     <div className="row mb-3">
                         <div className="col-md-4">
@@ -58,26 +73,27 @@ const UploadPage = () => {
                         <label htmlFor="fileUpload" className="form-label">File Upload</label>
                         <div className="input-group">
                             <span className="input-group-text">
-                                <i className="bi bi-upload"></i>
+                                <FaUpload />
                             </span>
                             <input 
                                 type="file" 
                                 id="fileUpload" 
                                 name="fileUpload" 
                                 className="form-control" 
-                                style={{ display: 'none' }} // Hide the default file input
+                                style={{ display: 'none' }} 
+                                onChange={handleFileChange}
                             />
                             <label 
                                 htmlFor="fileUpload" 
                                 className="form-control text-muted" 
                                 style={{ cursor: 'pointer' }}
                             >
-                                Browse
+                                {fileName || 'Browse'}
                             </label>
                         </div>
                     </div>
                     <div className="d-flex">
-                        <button type="button" className="btn btn-sm me-2">Cancel</button>
+                        <button type="button" className="btn btn-sm me-2" onClick={() => setFileName('')}>Cancel</button>
                         <button type="submit" className="btn btn-dark">Upload</button>
                     </div>
                 </form>
