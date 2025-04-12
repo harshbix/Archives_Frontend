@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/login/login';
 import UploadPage from './components/upload/uploadPage';
+import HomePage from './components/homePage/homePage';
+
 
 function App() {
   const [loggedInRole, setLoggedInRole] = useState(() => {
@@ -47,10 +49,9 @@ function App() {
           path="/student"
           element={
             loggedInRole === "student" ? (
-              <div style={{ textAlign: 'center', marginTop: '100px' }}>
-                <h2>Hello student 👋</h2>
-                <button onClick={handleLogout}>Logout</button>
-              </div>
+                <div>
+                  <HomePage onLogout={handleLogout} />
+                </div>
             ) : (
               <Navigate to="/" />
             )
