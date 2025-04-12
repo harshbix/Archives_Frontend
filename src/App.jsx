@@ -1,10 +1,12 @@
 import React from 'react'
-import './taskbar'
-import 'taskbar.css'
+import './navbar.jsx'
+import './navbar.css'
+import './App.css'
+import Navbar from './navbar'
 function App() {
   return (
     <>
-       <taskbar/>
+       <Navbar/>
     </>
   )
 }
