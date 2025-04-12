@@ -18,16 +18,16 @@ const Login = () => {
     const [year, setYear] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const defaultAdmin = {
-        email: "admin@gmail.com",
+    const defaultlecturer = {
+        email: "lecturer@gmail.com",
         password: "1234",
-        role: "admin"
+        role: "lecturer"
     };
 
-    const defaultUser = {
-        email: "user@gmail.com",
+    const defaultstudent = {
+        email: "student@gmail.com",
         password: "12345",
-        role: "user"
+        role: "student"
     };
 
     const handleLogin = (e) => {
@@ -35,12 +35,12 @@ const Login = () => {
 
         if (!email || !password || !role) {
             setErrorMessage("Please fill in all fields and select a role");
-        } else if (email === defaultAdmin.email && password === defaultAdmin.password && role === "admin") {
-            setWelcomeMessage("Welcome Admin");
+        } else if (email === defaultlecturer.email && password === defaultlecturer.password && role === "lecturer") {
+            setWelcomeMessage("Welcome lecturer");
             clearMessages();
             resetForm();
-        } else if (email === defaultUser.email && password === defaultUser.password && role === "user") {
-            setWelcomeMessage("Welcome User");
+        } else if (email === defaultstudent.email && password === defaultstudent.password && role === "student") {
+            setWelcomeMessage("Welcome student");
             clearMessages();
             resetForm();
         } else {
@@ -163,8 +163,8 @@ const Login = () => {
                         onChange={(e) => setRole(e.target.value)}
                     >
                         <option value="" disabled hidden>Select your role</option>
-                        <option value="admin">Admin</option>
-                        <option value="user">User</option>
+                        <option value="lecturer">lecturer</option>
+                        <option value="student">student</option>
                     </select>
 
                     {!isSignup && (
