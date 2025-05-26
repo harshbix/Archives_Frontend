@@ -1,158 +1,234 @@
-import React, { useEffect, useState } from "react";
-import "./login.css";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './login.css';
 
 const Login = ({ onLoginSuccess }) => {
-    const [isSignup, setIsSignup] = useState(false);
+  const navigate = useNavigate();
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [role, setRole] = useState('student');
+  const [formData, setFormData] = useState({
+    full_name: '',
+    email: '',
+    reg_number: '',
+    year_of_study: '',
+    employee_number: '',
+    department: '',
+    title: '',
+    password: '',
+    password2: '',
+  });
+  const [error, setError] = useState('');
 
-    const [loginData, setLoginData] = useState([]);
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [role, setRole] = useState("");
-    const [welcomeMessage, setWelcomeMessage] = useState(""); 
-    const [errorMessage, setErrorMessage] = useState("");
+  const toggleMode = () => {
+    setIsSignUp(prev => !prev);
+    setError('');
+    setFormData({
+      full_name: '',
+      email: '',
+      reg_number: '',
+      year_of_study: '',
+      employee_number: '',
+      department: '',
+      title: '',
+      password: '',
+      password2: '',
+    });
+  };
 
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [course, setCourse] = useState("");
-    const [year, setYear] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
-    useEffect(() => {
-        fetch("/login.json")
-            .then(res => res.json())
-            .then(data => setLoginData(data))
-            .catch(err => console.error("Failed to fetch login data", err));
-    }, []);
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setError('');
 
-    const handleLogin = (e) => {
-        e.preventDefault();
+    if (isSignUp && formData.password !== formData.password2) {
+      return setError('Passwords do not match.');
+    }
 
-        if (!email || !password || !role) {
-            setErrorMessage("Please fill in all fields and select a role");
-            return;
-        }
+    if (!isSignUp) {
+      // Handle mock login using login.json
+      try {
+        const response = await fetch('/login.json');
+        const users = await response.json();
 
-        const user = loginData.find(user =>
-            user.email === email &&
-            user.password === password &&
-            user.role === role
+        const user = users.find(
+          (u) => u.email === formData.email && u.password === formData.password
         );
 
-        if (user) {
-            setWelcomeMessage(`Welcome ${user.role}`);
-            clearMessages();
-            resetForm();
-            onLoginSuccess(user.role); // pass role to App
+        if (!user) {
+          setError('Invalid email or password.');
+          return;
+        }
+
+        const { role } = user;
+        localStorage.setItem('role', role);
+
+        if (onLoginSuccess) onLoginSuccess(role);
+
+        if (role === 'student') {
+          navigate('/student');
+        } else if (role === 'lecturer') {
+          navigate('/upload');
         } else {
-            setErrorMessage("Wrong credentials, please try again!");
+          setError('Unknown role.');
         }
+      } catch (err) {
+        setError('Failed to load login data.');
+        console.error(err);
+      }
 
-        console.log("Login Attempt:", email, password, role);
-    };
+      return;
+    }
 
-    const handleSignup = (e) => {
-        e.preventDefault();
+    // Placeholder for sign-up action
+    alert('Mock sign-up successful! (No actual data saved)');
+    toggleMode(); // Switch back to login after sign-up
+  };
 
-        if (!firstName || !lastName || !email || !password || !confirmPassword || !course || !year || !role) {
-            setErrorMessage("Please fill in all signup fields");
-            return;
-        }
+  return (
+    <div className="login-container">
+      <form className="login-box" onSubmit={handleSubmit}>
+        <h2 className="login-title">{isSignUp ? 'Sign Up' : 'Login'}</h2>
+        <p className="login-subtitle">{isSignUp ? 'Create an account' : 'Welcome back!'}</p>
 
-        if (password !== confirmPassword) {
-            setErrorMessage("Passwords do not match");
-            return;
-        }
+        {error && <div className="login-error">{error}</div>}
 
-        setWelcomeMessage(`Account created for ${firstName} ${lastName}`);
-        clearMessages();
-        setIsSignup(false);
-        resetForm();
+        {isSignUp && (
+          <input
+            className="login-input"
+            type="text"
+            name="full_name"
+            placeholder="Full Name"
+            value={formData.full_name}
+            onChange={handleChange}
+            required
+          />
+        )}
 
-        console.log("Signed up:", firstName, lastName, email, password, course, year, role);
-    };
+        <input
+          className="login-input"
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
 
-    const resetForm = () => {
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setPassword("");
-        setConfirmPassword("");
-        setCourse("");
-        setYear("");
-        setRole("");
-    };
+        <input
+          className="login-input"
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
 
-    const clearMessages = () => {
-        setErrorMessage("");
-        setWelcomeMessage("");
-    };
+        <select
+          className="login-input-select"
+          name="role"
+          value={role}
+          onChange={e => setRole(e.target.value)}
+        >
+          <option value="student">Student</option>
+          <option value="lecturer">Lecturer</option>
+        </select>
 
-    return (
-        <div className="login-container">
-            <div className="login-box">
-                <h1 className="login-title">{isSignup ? "Create Account" : "Access Account"}</h1>
-                <p className="login-subtitle">{isSignup ? "Sign up to continue" : "Access your dashboard"}</p>
+        {isSignUp && role === 'student' && (
+          <>
+            <input
+              className="login-input"
+              type="text"
+              name="reg_number"
+              placeholder="Registration Number"
+              value={formData.reg_number}
+              onChange={handleChange}
+              required
+            />
+            <input
+              className="login-input"
+              type="number"
+              name="year_of_study"
+              placeholder="Year of Study"
+              value={formData.year_of_study}
+              onChange={handleChange}
+              required
+            />
+          </>
+        )}
 
-                <form onSubmit={isSignup ? handleSignup : handleLogin}>
-                    {isSignup && (
-                        <>
-                            <input type="text" placeholder="First Name" className="login-input" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                            <input type="text" placeholder="Last Name" className="login-input" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                        </>
-                    )}
+        {isSignUp && role === 'lecturer' && (
+          <>
+            <input
+              className="login-input"
+              type="text"
+              name="employee_number"
+              placeholder="Employee Number"
+              value={formData.employee_number}
+              onChange={handleChange}
+              required
+            />
+            <input
+              className="login-input"
+              type="text"
+              name="department"
+              placeholder="Department"
+              value={formData.department}
+              onChange={handleChange}
+              required
+            />
+            <input
+              className="login-input"
+              type="text"
+              name="title"
+              placeholder="Title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+            />
+          </>
+        )}
 
-                    <input type="email" placeholder="Your email address" className="login-input" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <input type="password" placeholder="Enter your password" className="login-input" value={password} onChange={(e) => setPassword(e.target.value)} />
+        {isSignUp && (
+          <input
+            className="login-input"
+            type="password"
+            name="password2"
+            placeholder="Confirm Password"
+            value={formData.password2}
+            onChange={handleChange}
+            required
+          />
+        )}
 
-                    {isSignup && (
-                        <input type="password" placeholder="Confirm Password" className="login-input" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-                    )}
+        <button className="login-button" type="submit">
+          {isSignUp ? 'Sign Up' : 'Login'}
+        </button>
 
-                    {isSignup && (
-                        <>
-                            <input type="text" placeholder="Course" className="login-input" value={course} onChange={(e) => setCourse(e.target.value)} />
-                            <input type="text" placeholder="Academic Year (e.g., 2024/2025)" className="login-input" value={year} onChange={(e) => setYear(e.target.value)} />
-                        </>
-                    )}
-
-                    <select className="login-input-select" value={role} onChange={(e) => setRole(e.target.value)}>
-                        <option value="" disabled hidden>Select your role</option>
-                        <option value="lecturer">lecturer</option>
-                        <option value="student">student</option>
-                    </select>
-
-                    {!isSignup && (
-                        <div className="login-remember-me">
-                            <a href="#" className="login-link">Forgot your Password?</a>
-                        </div>
-                    )}
-
-                    <button type="submit" className="login-button">
-                        {isSignup ? "Sign Up" : "Log In"}
-                    </button>
-                </form>
-
-                {errorMessage && <p style={{ marginTop: "20px", color: "crimson", textAlign: "center" }}>{errorMessage}</p>}
-                {welcomeMessage && <p style={{ marginTop: "20px", color: "green", textAlign: "center" }}>{welcomeMessage}</p>}
-
-                <p className="login-footer">
-                    {isSignup ? (
-                        <>Already have an account?{" "}
-                            <button className="login-link" onClick={() => { setIsSignup(false); clearMessages(); resetForm(); }} style={{ background: "none", border: "none", color: "blue", cursor: "pointer" }}>
-                                Log In
-                            </button>
-                        </>
-                    ) : (
-                        <>Need to create an account?{" "}
-                            <button className="login-link" onClick={() => { setIsSignup(true); clearMessages(); resetForm(); }} style={{ background: "none", border: "none", color: "blue", cursor: "pointer" }}>
-                                Sign Up
-                            </button>
-                        </>
-                    )}
-                </p>
-            </div>
+        <div className="login-footer">
+          {isSignUp ? (
+            <p>
+              Already have an account?{' '}
+              <span className="login-link" onClick={toggleMode}>
+                Login
+              </span>
+            </p>
+          ) : (
+            <p>
+              Don’t have an account?{' '}
+              <span className="login-link" onClick={toggleMode}>
+                Sign Up
+              </span>
+            </p>
+          )}
         </div>
-    );
+      </form>
+    </div>
+  );
 };
 
 export default Login;

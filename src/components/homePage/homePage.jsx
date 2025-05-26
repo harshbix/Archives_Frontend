@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaShareAlt, FaDownload, FaHeart, FaStar } from "react-icons/fa";
-import Navbar from "../navbar/Navbar";
+import Navbar from "../navBar/Navbar";
 import "./homePage.css";
 
 function HomePage() {
