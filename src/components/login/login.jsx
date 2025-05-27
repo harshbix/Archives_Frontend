@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLogin, useRegister } from '../../hooks/useAuth';
 import './login.css';
 
 const Login = ({ onLoginSuccess }) => {
@@ -18,6 +19,33 @@ const Login = ({ onLoginSuccess }) => {
     password2: '',
   });
   const [error, setError] = useState('');
+
+  const loginMutation = useLogin({
+    onSuccess: (data) => {
+      localStorage.setItem('role', data.role);
+      if (onLoginSuccess) onLoginSuccess(data.role);
+      if (data.role === 'student') {
+        navigate('/student');
+      } else if (data.role === 'lecturer') {
+        navigate('/upload');
+      } else {
+        setError('Unknown role.');
+      }
+    },
+    onError: (error) => {
+      setError(error.message);
+    },
+  });
+
+  const registerMutation = useRegister({
+    onSuccess: () => {
+      alert('Registration successful! Please login.');
+      toggleMode();
+    },
+    onError: (error) => {
+      setError(error.message);
+    },
+  });
 
   const toggleMode = () => {
     setIsSignUp(prev => !prev);
@@ -40,7 +68,7 @@ const Login = ({ onLoginSuccess }) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = e => {
     e.preventDefault();
     setError('');
 
@@ -48,44 +76,11 @@ const Login = ({ onLoginSuccess }) => {
       return setError('Passwords do not match.');
     }
 
-    if (!isSignUp) {
-      // Handle mock login using login.json
-      try {
-        const response = await fetch('/login.json');
-        const users = await response.json();
-
-        const user = users.find(
-          (u) => u.email === formData.email && u.password === formData.password
-        );
-
-        if (!user) {
-          setError('Invalid email or password.');
-          return;
-        }
-
-        const { role } = user;
-        localStorage.setItem('role', role);
-
-        if (onLoginSuccess) onLoginSuccess(role);
-
-        if (role === 'student') {
-          navigate('/student');
-        } else if (role === 'lecturer') {
-          navigate('/upload');
-        } else {
-          setError('Unknown role.');
-        }
-      } catch (err) {
-        setError('Failed to load login data.');
-        console.error(err);
-      }
-
-      return;
+    if (isSignUp) {
+      registerMutation.mutate({ role, ...formData });
+    } else {
+      loginMutation.mutate({ email: formData.email, password: formData.password, role });
     }
-
-    // Placeholder for sign-up action
-    alert('Mock sign-up successful! (No actual data saved)');
-    toggleMode(); // Switch back to login after sign-up
   };
 
   return (
@@ -205,8 +200,8 @@ const Login = ({ onLoginSuccess }) => {
           />
         )}
 
-        <button className="login-button" type="submit">
-          {isSignUp ? 'Sign Up' : 'Login'}
+        <button className="login-button" type="submit" disabled={loginMutation.isLoading || registerMutation.isLoading}>
+          {loginMutation.isLoading || registerMutation.isLoading ? 'Processing...' : (isSignUp ? 'Sign Up' : 'Login')}
         </button>
 
         <div className="login-footer">
