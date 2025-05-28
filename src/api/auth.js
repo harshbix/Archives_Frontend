@@ -1,42 +1,36 @@
+import apiClient from './apiClient';
+
 export const loginApi = async ({ email, password, role }) => {
   let url = '';
   if (role === 'student') {
-    url = 'http://127.0.0.1:8000/api/student/login';
+    url = '/student/login';
   } else if (role === 'lecturer') {
-    url = 'http://127.0.0.1:8000/api/lecture/login';
+    url = '/lecture/login';
   } else {
-    url = `http://localhost:4000/api/login/${role}`;
+    url = `/login/${role}`;
   }
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || 'Login failed');
+  try {
+    const response = await apiClient.post(url, { email, password });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Login failed');
   }
-  return response.json();
 };
 
 export const registerApi = async (data) => {
   const { role, ...rest } = data;
   let url = '';
   if (role === 'student') {
-    url = 'http://127.0.0.1:8000/api/student/register';
+    url = '/student/register';
   } else if (role === 'lecturer') {
-    url = 'http://127.0.0.1:8000/api/lecture/register';
+    url = '/lecture/register';
   } else {
-    url = `http://localhost:4000/api/register/${role}`;
+    url = `/register/${role}`;
   }
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(rest),
-  });
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || 'Registration failed');
+  try {
+    const response = await apiClient.post(url, rest);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Registration failed');
   }
-  return response.json();
 };

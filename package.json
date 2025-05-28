@@ -12,6 +12,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.77.2",
     "@tanstack/react-query-devtools": "^5.77.2",
+    "axios": "^1.9.0",
     "bootstrap": "^5.3.5",
     "datatables.net": "^2.2.2",
     "datatables.net-bs5": "^2.2.2",
