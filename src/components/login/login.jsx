@@ -9,6 +9,7 @@ const Login = ({ onLoginSuccess }) => {
   // Add role state only for signup mode to fix blank signup form issue
   const [role, setRole] = useState('student');
   const [formData, setFormData] = useState({
+    username: '',
     full_name: '',
     email: '',
     reg_number: '',
@@ -38,6 +39,7 @@ const Login = ({ onLoginSuccess }) => {
     },
   });
 
+  // useRegister hook uses registerApi which posts to role-based registration URLs
   const registerMutation = useRegister({
     onSuccess: () => {
       alert('Registration successful! Please login.');
@@ -52,6 +54,7 @@ const Login = ({ onLoginSuccess }) => {
     setIsSignUp(prev => !prev);
     setError('');
     setFormData({
+      username: '',
       full_name: '',
       email: '',
       reg_number: '',
@@ -78,7 +81,26 @@ const Login = ({ onLoginSuccess }) => {
     }
 
     if (isSignUp) {
-      registerMutation.mutate({ role, ...formData });
+      // Prepare data to match backend expected fields
+      const dataToSend = {
+        role,
+        username: formData.username || formData.email, // fallback to email if username empty
+        full_name: formData.full_name,
+        email: formData.email,
+        password: formData.password,
+        password2: formData.password2,
+      };
+
+      if (role === 'student') {
+        dataToSend.reg_number = formData.reg_number;
+        dataToSend.year_of_study = formData.year_of_study;
+      } else if (role === 'lecturer') {
+        dataToSend.employee_number = formData.employee_number;
+        dataToSend.department = formData.department;
+        dataToSend.title = formData.title;
+      }
+
+      registerMutation.mutate(dataToSend);
     } else {
       loginMutation.mutate({ email: formData.email, password: formData.password });
     }
@@ -112,15 +134,26 @@ const Login = ({ onLoginSuccess }) => {
         {error && <div className="login-error">{error}</div>}
 
         {isSignUp && (
-          <input
-            className="login-input"
-            type="text"
-            name="full_name"
-            placeholder="Full Name"
-            value={formData.full_name}
-            onChange={handleChange}
-            required
-          />
+          <>
+            <input
+              className="login-input"
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+            <input
+              className="login-input"
+              type="text"
+              name="full_name"
+              placeholder="Full Name"
+              value={formData.full_name}
+              onChange={handleChange}
+              required
+            />
+          </>
         )}
 
         <input
