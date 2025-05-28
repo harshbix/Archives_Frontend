@@ -36,6 +36,19 @@ body {
     border:1px solid #ccc;
     border-radius: 6px;
     font-size: 14px;
+    background-color: white;
+    color: #000;
+    outline: none;
+    box-shadow: none;
+    transition: none;
+}
+
+.login-input:focus {
+    background-color: white;
+    color: #000;
+    border: 1px solid #ccc;
+    outline: none;
+    box-shadow: none;
 }
 .login-input-select{
     width: 100%;
@@ -51,6 +64,42 @@ body {
     font-size: 14px;
     text-align: center;
     margin-bottom: 15px;
+}
+
+.role-selection-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.role-button {
+   position: relative;
+  padding: 10px 20px;
+  border-radius: 7px;
+  border: 1px solid rgb(61, 106, 255);
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 2px;
+  background: transparent;
+  color: #817f7f;
+  overflow: hidden;
+  box-shadow: 0 0 0 0 transparent;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+
+.role-button:hover {
+    background-color: #e0e7ff;
+}
+
+.role-button.active {
+    background-color: #2563eb;
+    color: white;
+    border: 1px solid #2563eb;
 }
 .login-button{
 width: 100%;
@@ -82,4 +131,28 @@ text-decoration: none;
     text-align: center;
     font-size: 14px;
     margin-top: 15px;
+}
+
+.role-toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.role-toggle-button {
+    padding: 10px 20px;
+    border: 1px solid #2563eb;
+    background-color: white;
+    color: #2563eb;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.role-toggle-button.active {
+    background-color: #2563eb;
+    color: white;
+    border: 1px solid #2563eb;
 }

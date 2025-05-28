@@ -6,6 +6,7 @@ import './login.css';
 const Login = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
+  // Add role state only for signup mode to fix blank signup form issue
   const [role, setRole] = useState('student');
   const [formData, setFormData] = useState({
     full_name: '',
@@ -79,7 +80,7 @@ const Login = ({ onLoginSuccess }) => {
     if (isSignUp) {
       registerMutation.mutate({ role, ...formData });
     } else {
-      loginMutation.mutate({ email: formData.email, password: formData.password, role });
+      loginMutation.mutate({ email: formData.email, password: formData.password });
     }
   };
 
@@ -88,6 +89,25 @@ const Login = ({ onLoginSuccess }) => {
       <form className="login-box" onSubmit={handleSubmit}>
         <h2 className="login-title">{isSignUp ? 'Sign Up' : 'Login'}</h2>
         <p className="login-subtitle">{isSignUp ? 'Create an account' : 'Welcome back!'}</p>
+
+        {isSignUp && (
+          <div className="role-selection-buttons">
+            <button
+              type="button"
+              className={`role-button ${role === 'student' ? 'active' : ''}`}
+              onClick={() => setRole('student')}
+            >
+              Student
+            </button>
+            <button
+              type="button"
+              className={`role-button ${role === 'lecturer' ? 'active' : ''}`}
+              onClick={() => setRole('lecturer')}
+            >
+              Lecturer
+            </button>
+          </div>
+        )}
 
         {error && <div className="login-error">{error}</div>}
 
@@ -122,16 +142,6 @@ const Login = ({ onLoginSuccess }) => {
           onChange={handleChange}
           required
         />
-
-        <select
-          className="login-input-select"
-          name="role"
-          value={role}
-          onChange={e => setRole(e.target.value)}
-        >
-          <option value="student">Student</option>
-          <option value="lecturer">Lecturer</option>
-        </select>
 
         {isSignUp && role === 'student' && (
           <>
