@@ -210,24 +210,28 @@ const Login = ({ onLoginSuccess }) => {
               onChange={handleChange}
               required
             />
-            <input
+            <select
               className="login-input"
-              type="text"
               name="department"
-              placeholder="Department"
               value={formData.department}
               onChange={handleChange}
               required
-            />
-            <input
+            >
+              <option value="">Select Department</option>
+              <option value="Computer Science And Engineering">Computer Science And Engineering</option>
+              <option value="Information And Communication Technology">Information And Communication Technology</option>
+            </select>
+            <select
               className="login-input"
-              type="text"
               name="title"
-              placeholder="Title"
               value={formData.title}
               onChange={handleChange}
               required
-            />
+            >
+              <option value="">Select Title</option>
+              <option value="Head Of Department">Head Of Department</option>
+              <option value="Lecture">Lecture</option>
+            </select>
           </>
         )}
 
