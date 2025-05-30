@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLogin, useRegister } from '../../hooks/useAuth';
+import { useQueryClient } from '@tanstack/react-query';
+import { setUser } from '../../hooks/useUser';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import './login.css';
 
@@ -26,13 +28,21 @@ const Login = ({ onLoginSuccess }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const queryClient = useQueryClient();
+
   const loginMutation = useLogin({
     onSuccess: (data) => {
-      localStorage.setItem('role', data.role);
-      if (onLoginSuccess) onLoginSuccess(data.role);
-      if (data.role === 'student') {
+      const userRole = data.user?.role;
+      if (!userRole) {
+        setError('Login failed: role information missing in response.');
+        return;
+      }
+      localStorage.setItem('role', userRole);
+      setUser(queryClient, data.user);
+      if (onLoginSuccess) onLoginSuccess(userRole);
+      if (userRole === 'student') {
         navigate('/student');
-      } else if (data.role === 'lecturer') {
+      } else if (userRole === 'lecture') {
         navigate('/upload');
       } else {
         setError('Unknown role.');
@@ -98,7 +108,7 @@ const Login = ({ onLoginSuccess }) => {
       if (role === 'student') {
         dataToSend.reg_number = formData.reg_number;
         dataToSend.year_of_study = formData.year_of_study;
-      } else if (role === 'lecturer') {
+      } else if (role === 'lecture') {
         dataToSend.employee_number = formData.employee_number;
         dataToSend.department = formData.department;
         dataToSend.title = formData.title;
@@ -127,10 +137,10 @@ const Login = ({ onLoginSuccess }) => {
             </button>
             <button
               type="button"
-              className={`role-button ${role === 'lecturer' ? 'active' : ''}`}
-              onClick={() => setRole('lecturer')}
+              className={`role-button ${role === 'lecture' ? 'active' : ''}`}
+              onClick={() => setRole('lecture')}
             >
-              Lecturer
+              Lecture
             </button>
           </div>
         )}
@@ -204,7 +214,7 @@ const Login = ({ onLoginSuccess }) => {
             >
               <option value="" disabled>Role</option>
               <option value="student">Student</option>
-              <option value="lecturer">Lecturer</option>
+              <option value="lecture">Lecture</option>
             </select>
           </div>
         )}
@@ -232,7 +242,7 @@ const Login = ({ onLoginSuccess }) => {
           </>
         )}
 
-        {isSignUp && role === 'lecturer' && (
+        {isSignUp && role === 'lecture' && (
           <>
             <input
               className="login-input"

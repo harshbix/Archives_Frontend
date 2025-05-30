@@ -9,7 +9,7 @@ export const loginApi = async ({ email, password, role }) => {
   let url = '';
   if (role === 'student') {
     url = '/student/login';
-  } else if (role === 'lecturer') {
+  } else if (role === 'lecture') {
     url = '/lecture/login';
   } else {
     url = `/login/${role}`;
@@ -29,7 +29,7 @@ export const registerApi = async (data) => {
   if (role === 'student') {
     // API endpoint for student registration
     url = STUDENT_REGISTER_URL;
-  } else if (role === 'lecturer') {
+  } else if (role === 'lecture') {
     // API endpoint for lecturer registration
     url = LECTURER_REGISTER_URL;
   } else {

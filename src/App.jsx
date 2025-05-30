@@ -25,7 +25,7 @@ function App() {
         <Route
           path="/"
           element={
-            loggedInRole === "lecturer" ? (
+            loggedInRole === "lecture" ? (
               <Navigate to="/upload" />
             ) : loggedInRole === "student" ? (
               <Navigate to="/student" />
@@ -37,7 +37,7 @@ function App() {
         <Route
           path="/upload"
           element={
-            loggedInRole === "lecturer" ? (
+            loggedInRole === "lecture" ? (
               <UploadPage onLogout={handleLogout} />
             ) : (
               <Navigate to="/" />
