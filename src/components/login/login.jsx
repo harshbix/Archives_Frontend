@@ -9,6 +9,7 @@ const Login = ({ onLoginSuccess }) => {
   const [isSignUp, setIsSignUp] = useState(false);
   // Add role state only for signup mode to fix blank signup form issue
   const [role, setRole] = useState('student');
+  const [loginRole, setLoginRole] = useState('student'); // new state for login role dropdown
   const [formData, setFormData] = useState({
     username: '',
     full_name: '',
@@ -105,7 +106,7 @@ const Login = ({ onLoginSuccess }) => {
 
       registerMutation.mutate(dataToSend);
     } else {
-      loginMutation.mutate({ email: formData.email, password: formData.password });
+      loginMutation.mutate({ email: formData.email, password: formData.password, role: loginRole });
     }
   };
 
@@ -169,6 +170,45 @@ const Login = ({ onLoginSuccess }) => {
           required
         />
 
+        <div className="password-input-container">
+          <input
+            className="login-input password-input"
+            type={showPassword ? 'text' : 'password'}
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <span
+            className="password-toggle-icon"
+            onClick={() => setShowPassword(prev => !prev)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setShowPassword(prev => !prev); }}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
+          >
+            {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+          </span>
+        </div>
+
+        {!isSignUp && (
+          <div className="login-role-dropdown">
+            <select
+              id="loginRole"
+              name="loginRole"
+              value={loginRole}
+              onChange={e => setLoginRole(e.target.value)}
+              className="login-role-select"
+              placeholder="Role"
+            >
+              <option value="" disabled>Role</option>
+              <option value="student">Student</option>
+              <option value="lecturer">Lecturer</option>
+            </select>
+          </div>
+        )}
+
         {isSignUp && role === 'student' && (
           <>
             <input
@@ -227,28 +267,6 @@ const Login = ({ onLoginSuccess }) => {
             </select>
           </>
         )}
-
-        <div className="password-input-container">
-          <input
-            className="login-input password-input"
-            type={showPassword ? 'text' : 'password'}
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          <span
-            className="password-toggle-icon"
-            onClick={() => setShowPassword(prev => !prev)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setShowPassword(prev => !prev); }}
-            aria-label={showPassword ? 'Hide password' : 'Show password'}
-          >
-            {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-          </span>
-        </div>
 
         {isSignUp && (
           <>
