@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLogin, useRegister } from '../../hooks/useAuth';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import './login.css';
 
 const Login = ({ onLoginSuccess }) => {
@@ -21,6 +22,8 @@ const Login = ({ onLoginSuccess }) => {
     password2: '',
   });
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const loginMutation = useLogin({
     onSuccess: (data) => {
@@ -166,16 +169,6 @@ const Login = ({ onLoginSuccess }) => {
           required
         />
 
-        <input
-          className="login-input"
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-
         {isSignUp && role === 'student' && (
           <>
             <input
@@ -235,16 +228,52 @@ const Login = ({ onLoginSuccess }) => {
           </>
         )}
 
-        {isSignUp && (
+        <div className="password-input-container">
           <input
-            className="login-input"
-            type="password"
-            name="password2"
-            placeholder="Confirm Password"
-            value={formData.password2}
+            className="login-input password-input"
+            type={showPassword ? 'text' : 'password'}
+            name="password"
+            placeholder="Password"
+            value={formData.password}
             onChange={handleChange}
             required
           />
+          <span
+            className="password-toggle-icon"
+            onClick={() => setShowPassword(prev => !prev)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setShowPassword(prev => !prev); }}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
+          >
+            {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+          </span>
+        </div>
+
+        {isSignUp && (
+          <>
+          <div className="password-input-container">
+            <input
+              className="login-input password-input"
+              type={showConfirmPassword ? 'text' : 'password'}
+              name="password2"
+              placeholder="Confirm Password"
+              value={formData.password2}
+              onChange={handleChange}
+              required
+            />
+            <span
+              className="password-toggle-icon"
+              onClick={() => setShowConfirmPassword(prev => !prev)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setShowConfirmPassword(prev => !prev); }}
+              aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+            >
+              {showConfirmPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+            </span>
+          </div>
+          </>
         )}
 
         <button className="login-button" type="submit" disabled={loginMutation.isLoading || registerMutation.isLoading}>

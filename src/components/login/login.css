@@ -133,26 +133,27 @@ text-decoration: none;
     margin-top: 15px;
 }
 
-.role-toggle-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
-    gap: 10px;
+.password-input-container {
+  position: relative;
+  width: 100%;
 }
 
-.role-toggle-button {
-    padding: 10px 20px;
-    border: 1px solid #2563eb;
-    background-color: white;
-    color: #2563eb;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+.password-input {
+  width: 100%;
+  padding-right: 2.5rem; /* space for the icon */
+  box-sizing: border-box;
 }
 
-.role-toggle-button.active {
-    background-color: #2563eb;
-    color: white;
-    border: 1px solid #2563eb;
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+  font-size: 1.2rem;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
