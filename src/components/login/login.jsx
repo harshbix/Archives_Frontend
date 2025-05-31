@@ -9,10 +9,7 @@ import './login.css';
 const Login = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
-  // Add role state only for signup mode to fix blank signup form issue
   const [role, setRole] = useState('student');
-  // Removed loginRole state as role selector is removed
-  // const [loginRole, setLoginRole] = useState('student'); // new state for login role dropdown
   const [formData, setFormData] = useState({
     username: '',
     full_name: '',
@@ -33,11 +30,9 @@ const Login = ({ onLoginSuccess }) => {
 
   const loginMutation = useLogin({
     onSuccess: (data) => {
-      console.log('Login success data:', data);
       const userRole = data.user?.role;
-      console.log('Extracted userRole:', userRole);
       if (!userRole) {
-        setError('Login failed: role information missing in response.');
+        setError('Login failed: role information missing.');
         return;
       }
       localStorage.setItem('role', userRole);
@@ -51,20 +46,15 @@ const Login = ({ onLoginSuccess }) => {
         setError(`Unknown role: ${userRole}`);
       }
     },
-    onError: (error) => {
-      setError(error.message);
-    },
+    onError: (error) => setError(error.message),
   });
 
-  // useRegister hook uses registerApi which posts to role-based registration URLs
   const registerMutation = useRegister({
     onSuccess: () => {
       alert('Registration successful! Please login.');
       toggleMode();
     },
-    onError: (error) => {
-      setError(error.message);
-    },
+    onError: (error) => setError(error.message),
   });
 
   const toggleMode = () => {
@@ -98,10 +88,9 @@ const Login = ({ onLoginSuccess }) => {
     }
 
     if (isSignUp) {
-      // Prepare data to match backend expected fields
       const dataToSend = {
         role,
-        username: formData.username || formData.email, // fallback to email if username empty
+        username: formData.username,
         full_name: formData.full_name,
         email: formData.email,
         password: formData.password,
@@ -150,6 +139,42 @@ const Login = ({ onLoginSuccess }) => {
 
         {error && <div className="login-error">{error}</div>}
 
+        {/* Login Fields */}
+        {!isSignUp && (
+          <>
+            <input
+              className="login-input"
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <div className="password-input-container">
+              <input
+                className="login-input password-input"
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              <span
+                className="password-toggle-icon"
+                onClick={() => setShowPassword(prev => !prev)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setShowPassword(prev => !prev); }}
+              >
+                {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              </span>
+            </div>
+          </>
+        )}
+
+        {/* Sign-Up Fields (Reordered) */}
         {isSignUp && (
           <>
             <input
@@ -170,128 +195,116 @@ const Login = ({ onLoginSuccess }) => {
               onChange={handleChange}
               required
             />
-          </>
-        )}
-
-        <input
-          className="login-input"
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-
-        <div className="password-input-container">
-          <input
-            className="login-input password-input"
-            type={showPassword ? 'text' : 'password'}
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          <span
-            className="password-toggle-icon"
-            onClick={() => setShowPassword(prev => !prev)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setShowPassword(prev => !prev); }}
-            aria-label={showPassword ? 'Hide password' : 'Show password'}
-          >
-            {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-          </span>
-        </div>
-
-        {!isSignUp && (
-          <>
-          </>
-        )}
-
-        {isSignUp && role === 'student' && (
-          <>
             <input
               className="login-input"
-              type="text"
-              name="reg_number"
-              placeholder="Registration Number"
-              value={formData.reg_number}
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
               onChange={handleChange}
               required
             />
-            <input
-              className="login-input"
-              type="number"
-              name="year_of_study"
-              placeholder="Year of Study"
-              value={formData.year_of_study}
-              onChange={handleChange}
-              required
-            />
-          </>
-        )}
 
-        {isSignUp && role === 'lecture' && (
-          <>
-            <input
-              className="login-input"
-              type="text"
-              name="employee_number"
-              placeholder="Employee Number"
-              value={formData.employee_number}
-              onChange={handleChange}
-              required
-            />
-            <select
-              className="login-input"
-              name="department"
-              value={formData.department}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Department</option>
-              <option value="Computer Science And Engineering">Computer Science And Engineering</option>
-              <option value="Information And Communication Technology">Information And Communication Technology</option>
-            </select>
-            <select
-              className="login-input"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Title</option>
-              <option value="Head Of Department">Head Of Department</option>
-              <option value="Lecture">Lecture</option>
-            </select>
-          </>
-        )}
+            {role === 'student' && (
+              <>
+                <input
+                  className="login-input"
+                  type="text"
+                  name="reg_number"
+                  placeholder="Registration Number"
+                  value={formData.reg_number}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  className="login-input"
+                  type="number"
+                  name="year_of_study"
+                  placeholder="Year of Study"
+                  value={formData.year_of_study}
+                  onChange={handleChange}
+                  required
+                />
+              </>
+            )}
 
-        {isSignUp && (
-          <>
-          <div className="password-input-container">
-            <input
-              className="login-input password-input"
-              type={showConfirmPassword ? 'text' : 'password'}
-              name="password2"
-              placeholder="Confirm Password"
-              value={formData.password2}
-              onChange={handleChange}
-              required
-            />
-            <span
-              className="password-toggle-icon"
-              onClick={() => setShowConfirmPassword(prev => !prev)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setShowConfirmPassword(prev => !prev); }}
-              aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
-            >
-              {showConfirmPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-            </span>
-          </div>
+            {role === 'lecture' && (
+              <>
+                <input
+                  className="login-input"
+                  type="text"
+                  name="employee_number"
+                  placeholder="Employee Number"
+                  value={formData.employee_number}
+                  onChange={handleChange}
+                  required
+                />
+                <select
+                  className="login-input"
+                  name="department"
+                  value={formData.department}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Department</option>
+                  <option value="Computer Science And Engineering">Computer Science And Engineering</option>
+                  <option value="Information And Communication Technology">Information And Communication Technology</option>
+                </select>
+                <select
+                  className="login-input"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Title</option>
+                  <option value="Head Of Department">Head Of Department</option>
+                  <option value="Lecture">Lecture</option>
+                </select>
+              </>
+            )}
+
+            <div className="password-input-container">
+              <input
+                className="login-input password-input"
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              <span
+                className="password-toggle-icon"
+                onClick={() => setShowPassword(prev => !prev)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setShowPassword(prev => !prev); }}
+              >
+                {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              </span>
+            </div>
+
+            <div className="password-input-container">
+              <input
+                className="login-input password-input"
+                type={showConfirmPassword ? 'text' : 'password'}
+                name="password2"
+                placeholder="Confirm Password"
+                value={formData.password2}
+                onChange={handleChange}
+                required
+              />
+              <span
+                className="password-toggle-icon"
+                onClick={() => setShowConfirmPassword(prev => !prev)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setShowConfirmPassword(prev => !prev); }}
+              >
+                {showConfirmPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              </span>
+            </div>
           </>
         )}
 
@@ -309,7 +322,7 @@ const Login = ({ onLoginSuccess }) => {
             </p>
           ) : (
             <p>
-              Don’t have an account?{' '}
+              Don't have an account?{' '}
               <span className="login-link" onClick={toggleMode}>
                 Sign Up
               </span>
