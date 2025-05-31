@@ -11,7 +11,8 @@ const Login = ({ onLoginSuccess }) => {
   const [isSignUp, setIsSignUp] = useState(false);
   // Add role state only for signup mode to fix blank signup form issue
   const [role, setRole] = useState('student');
-  const [loginRole, setLoginRole] = useState('student'); // new state for login role dropdown
+  // Removed loginRole state as role selector is removed
+  // const [loginRole, setLoginRole] = useState('student'); // new state for login role dropdown
   const [formData, setFormData] = useState({
     username: '',
     full_name: '',
@@ -118,7 +119,7 @@ const Login = ({ onLoginSuccess }) => {
 
       registerMutation.mutate(dataToSend);
     } else {
-      loginMutation.mutate({ email: formData.email, password: formData.password, role: loginRole });
+      loginMutation.mutate({ email: formData.email, password: formData.password });
     }
   };
 
@@ -205,20 +206,8 @@ const Login = ({ onLoginSuccess }) => {
         </div>
 
         {!isSignUp && (
-          <div className="login-role-dropdown">
-            <select
-              id="loginRole"
-              name="loginRole"
-              value={loginRole}
-              onChange={e => setLoginRole(e.target.value)}
-              className="login-role-select"
-              placeholder="Role"
-            >
-              <option value="" disabled>Role</option>
-              <option value="student">Student</option>
-              <option value="lecture">Lecture</option>
-            </select>
-          </div>
+          <>
+          </>
         )}
 
         {isSignUp && role === 'student' && (

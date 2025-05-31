@@ -5,15 +5,8 @@ const BASE_URL = apiClient.defaults.baseURL || 'http://127.0.0.1:8000/api';
 export const STUDENT_REGISTER_URL = `${BASE_URL}/student/register`;
 export const LECTURER_REGISTER_URL = `${BASE_URL}/lecture/register`;
 
-export const loginApi = async ({ email, password, role }) => {
-  let url = '';
-  if (role === 'student') {
-    url = '/student/login';
-  } else if (role === 'lecture') {
-    url = '/lecture/login';
-  } else {
-    url = `/login/${role}`;
-  }
+export const loginApi = async ({ email, password }) => {
+  const url = '/lecture/login';
   try {
     const response = await apiClient.post(url, { email, password });
     return response.data;
