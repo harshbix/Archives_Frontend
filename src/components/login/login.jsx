@@ -32,7 +32,9 @@ const Login = ({ onLoginSuccess }) => {
 
   const loginMutation = useLogin({
     onSuccess: (data) => {
+      console.log('Login success data:', data);
       const userRole = data.user?.role;
+      console.log('Extracted userRole:', userRole);
       if (!userRole) {
         setError('Login failed: role information missing in response.');
         return;
@@ -40,12 +42,12 @@ const Login = ({ onLoginSuccess }) => {
       localStorage.setItem('role', userRole);
       setUser(queryClient, data.user);
       if (onLoginSuccess) onLoginSuccess(userRole);
-      if (userRole === 'student') {
+      if (userRole === 'Student') {
         navigate('/student');
-      } else if (userRole === 'lecture') {
+      } else if (userRole === 'Lecture') {
         navigate('/upload');
       } else {
-        setError('Unknown role.');
+        setError(`Unknown role: ${userRole}`);
       }
     },
     onError: (error) => {
