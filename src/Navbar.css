@@ -124,4 +124,57 @@
   .dropdown-item:hover {
     background-color: #f5f5f5;
   }
+
+  /* Profile avatar styles */
+  .profile-avatar {
+    width: 36px;
+    height: 36px;
+    background-color: #6b4c3b; /* brown color */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1rem;
+    user-select: none;
+  }
+
+  /* Profile info container */
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Profile name */
+  .profile-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #222;
+    line-height: 1.2;
+  }
+
+  /* Profile email */
+  .profile-email {
+    font-weight: 400;
+    font-size: 0.75rem;
+    color: #666;
+    line-height: 1.2;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .profile-name {
+      font-size: 0.85rem;
+    }
+    .profile-email {
+      font-size: 0.7rem;
+    }
+    .profile-avatar {
+      width: 30px;
+      height: 30px;
+      font-size: 0.85rem;
+    }
+  }
   

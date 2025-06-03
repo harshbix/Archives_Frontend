@@ -1,18 +1,15 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 const USER_QUERY_KEY = ['user'];
 
 export const useUser = () => {
-  return useQuery(USER_QUERY_KEY, {
-    // This query can be enhanced to fetch user data from an API if needed
-    // For now, it reads from localStorage or returns null
-    queryFn: () => {
-      const role = localStorage.getItem('role');
-      return role ? { role } : null;
-    },
-    staleTime: Infinity,
-    cacheTime: Infinity,
-  });
+  const queryClient = useQueryClient();
+  const user = queryClient.getQueryData(USER_QUERY_KEY);
+  return {
+    data: user || null,
+    isLoading: false,
+    isError: false,
+  };
 };
 
 export const setUser = (queryClient, userData) => {
