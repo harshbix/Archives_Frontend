@@ -80,7 +80,7 @@ function HomePage() {
           className="filter-select"
           onChange={(e) => handleFilterChange("degree", e.target.value)}
         >
-          <option value="">Degree</option>
+          <option value="">Level</option>
           <option value="bachelor">BSc (Hons)</option>
           <option value="diploma">Diploma</option>
           <option value="masters">Masters</option>
