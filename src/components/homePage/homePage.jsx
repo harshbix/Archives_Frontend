@@ -1,24 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { FaShareAlt, FaDownload, FaHeart, FaStar } from "react-icons/fa";
 import Navbar from "../navBar/Navbar";
 import "./homePage.css";
 
 function HomePage() {
-  // Sample document data for testing search functionality
-  const [documents, setDocuments] = useState([
-    { id: 1, name: "Mathematics Syllabus", type: "pdf", size: "2.4 MB", degree: "bachelor", year: "1st", semester: "first", department: "it", rating: 0, liked: false },
-    { id: 2, name: "Programming Lab Manual", type: "doc", size: "1.8 MB", degree: "diploma", year: "2nd", semester: "second", department: "cs", rating: 0, liked: false },
-    { id: 3, name: "Database Systems Notes", type: "pdf", size: "3.2 MB", degree: "bachelor", year: "3rd", semester: "first", department: "it", rating: 0, liked: false },
-    { id: 4, name: "Computer Networks Slides", type: "ppt", size: "5.1 MB", degree: "bachelor", year: "2nd", semester: "second", department: "it", rating: 0, liked: false },
-    { id: 5, name: "Algorithms Textbook", type: "pdf", size: "8.7 MB", degree: "masters", year: "1st", semester: "first", department: "cs", rating: 0, liked: false },
-    { id: 6, name: "Operating Systems Guide", type: "pdf", size: "4.5 MB", degree: "bachelor", year: "3rd", semester: "second", department: "coe", rating: 0, liked: false },
-    { id: 7, name: "Web Development Cheatsheet", type: "pdf", size: "1.2 MB", degree: "diploma", year: "2nd", semester: "first", department: "it", rating: 0, liked: false },
-    { id: 8, name: "Data Structures Exercises", type: "doc", size: "2.9 MB", degree: "bachelor", year: "1st", semester: "second", department: "cs", rating: 0, liked: false },
-    { id: 9, name: "Software Engineering Case Studies", type: "pdf", size: "6.3 MB", degree: "masters", year: "2nd", semester: "first", department: "coe", rating: 0, liked: false },
-    { id: 10, name: "AI Fundamentals", type: "pdf", size: "7.8 MB", degree: "bachelor", year: "4th", semester: "second", department: "it", rating: 0, liked: false },
-    { id: 11, name: "Computer Graphics Tutorial", type: "pdf", size: "3.6 MB", degree: "bachelor", year: "3rd", semester: "first", department: "cs", rating: 0, liked: false },
-    { id: 12, name: "Network Security Handbook", type: "pdf", size: "9.2 MB", degree: "masters", year: "1st", semester: "second", department: "it", rating: 0, liked: false },
-  ]);
+  const [documents, setDocuments] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({
     year: "",
@@ -26,6 +13,36 @@ function HomePage() {
     department: "",
     semester: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+const fetchDocuments = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get("http://127.0.0.1:8001/api/documents/");
+        const docs = response.data.map(doc => {
+          if (!doc.name) {
+            return {
+              ...doc,
+              name: doc.course || "Unknown",
+              type: "pdf",
+            };
+          }
+          return doc;
+        });
+        setDocuments(docs);
+      } catch (err) {
+        setError("Failed to fetch documents.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDocuments();
+  }, []);
 
   const handleSearch = (query) => {
     setSearchQuery(query.toLowerCase());
@@ -38,9 +55,9 @@ function HomePage() {
     }));
   };
 
-  const filteredDocuments = documents.filter((doc) => {
+const filteredDocuments = documents.filter((doc) => {
     return (
-      doc.name.toLowerCase().includes(searchQuery) &&
+      doc.name && doc.name.toLowerCase().includes(searchQuery) &&
       (filters.year === "" || doc.year === filters.year) &&
       (filters.degree === "" || doc.degree === filters.degree) &&
       (filters.department === "" || doc.department === filters.department) &&
@@ -103,6 +120,9 @@ function HomePage() {
           <option value="second">Second</option>
         </select>
       </div>
+
+      {loading && <p>Loading documents...</p>}
+      {error && <p className="error">{error}</p>}
 
       <div className="documents-section">
         {filteredDocuments.map((doc) => (
