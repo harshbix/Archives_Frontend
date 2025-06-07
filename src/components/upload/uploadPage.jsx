@@ -62,15 +62,27 @@ const UploadPage = () => {
                         <div className="row mb-3">
                             <div className="col-md-4">
                                 <label className="form-label">Year</label>
-                                <input type="text" className="form-control" placeholder="Enter Year" />
+                                <input type="text" className="form-control" placeholder="Enter the Year" />
                             </div>
                             <div className="col-md-4">
                                 <label className="form-label">Course</label>
-                                <input type="text" className="form-control" placeholder="Enter Course" />
+                                <input type="text" className="form-control" placeholder="Enter the Course" />
                             </div>
                             <div className="col-md-4">
                                 <label className="form-label">Subject</label>
-                                <input type="text" className="form-control" placeholder="Enter Subject" />
+                                <input type="text" className="form-control" placeholder="Enter the Subject" />
+                            </div>
+                            <div className="col-md-4">
+                                <label className="form-label">Level</label>
+                                <input type="text" className="form-control" placeholder="Enter level" />
+                            </div>
+                            <div className="col-md-4">
+                                <label className="form-label">Department</label>
+                                <input type="text" className="form-control" placeholder="Enter the department" />
+                            </div>
+                            <div className="col-md-4">
+                                <label className="form-label">Semester</label>
+                                <input type="text" className="form-control" placeholder="Enter Semester " />
                             </div>
                         </div>
 
