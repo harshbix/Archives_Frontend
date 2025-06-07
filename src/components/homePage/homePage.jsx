@@ -89,16 +89,17 @@ const filteredDocuments = documents.filter((doc) => {
           onChange={(e) => handleFilterChange("year", e.target.value)}
         >
           <option value="">Year</option>
-          <option value="2023">2023</option>
-          <option value="2022">2022</option>
-          <option value="2021">2021</option>
+          <option value="first">First</option>
+          <option value="second">Second</option>
+          <option value="third">Third</option>
+          <option value="fourth">Fourth</option>
         </select>
         <select
           className="filter-select"
           onChange={(e) => handleFilterChange("degree", e.target.value)}
         >
           <option value="">Level</option>
-          <option value="bachelor">BSc (Hons)</option>
+          <option value="bachelor">Bachelor</option>
           <option value="diploma">Diploma</option>
           <option value="masters">Masters</option>
         </select>

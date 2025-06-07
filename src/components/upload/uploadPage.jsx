@@ -100,13 +100,17 @@ const handleCancel = () => {
                         <div className="row mb-3">
                             <div className="col-md-4">
 <label className="form-label">Year</label>
-<input
-    type="text"
-    className="form-control"
-    placeholder="Enter the Year"
+<select
+    className="form-select"
     value={year}
     onChange={(e) => setYear(e.target.value)}
-/>
+>
+    <option value="">Select Year</option>
+    <option value="First">First</option>
+    <option value="Second">Second</option>
+    <option value="Third">Third</option>
+    <option value="Fourth">Fourth</option>
+</select>
                             </div>
                             <div className="col-md-4">
 <label className="form-label">Course</label>
@@ -130,33 +134,41 @@ const handleCancel = () => {
                             </div>
                             <div className="col-md-4">
 <label className="form-label">Level</label>
-<input
-    type="text"
-    className="form-control"
-    placeholder="Enter level"
+<select
+    className="form-select"
     value={level}
     onChange={(e) => setLevel(e.target.value)}
-/>
+>
+    <option value="">Select Level</option>
+    <option value="Bachelor">Bachelor</option>
+    <option value="Diploma">Diploma</option>
+    <option value="Masters">Masters</option>
+</select>
                             </div>
                             <div className="col-md-4">
 <label className="form-label">Department</label>
-<input
-    type="text"
-    className="form-control"
-    placeholder="Enter the department"
+<select
+    className="form-select"
     value={department}
     onChange={(e) => setDepartment(e.target.value)}
-/>
+>
+    <option value="">Select Department</option>
+    <option value="Computer Science">Computer Science</option>
+    <option value="Information Technology">Information Technology</option>
+    <option value="Engineering">Engineering</option>
+</select>
                             </div>
                             <div className="col-md-4">
 <label className="form-label">Semester</label>
-<input
-    type="text"
-    className="form-control"
-    placeholder="Enter Semester "
+<select
+    className="form-select"
     value={semester}
     onChange={(e) => setSemester(e.target.value)}
-/>
+>
+    <option value="">Select Semester</option>
+    <option value="First">First</option>
+    <option value="Second">Second</option>
+</select>
                             </div>
                         </div>
 
