@@ -24,3 +24,14 @@ export function usePosts() {
     queryConfig
   );
 }
+
+export function useDocumentsQuery() {
+  return useQuery(
+    queryKeys.documents,
+    async () => {
+      const { data } = await apiClient.get('/documents/');
+      return data;
+    },
+    queryConfig
+  );
+}

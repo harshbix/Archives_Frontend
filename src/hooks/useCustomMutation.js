@@ -33,3 +33,23 @@ export function useUpdatePost() {
     }
   );
 }
+
+export function useUploadDocumentMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async (formData) => {
+      const { data } = await apiClient.post('/documents/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(queryKeys.documents);
+      },
+    }
+  );
+}
