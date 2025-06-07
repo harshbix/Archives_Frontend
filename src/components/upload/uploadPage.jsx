@@ -3,10 +3,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaUpload } from 'react-icons/fa';
 import FileTable from './filetable';
 import Navbar from '../navBar/Navbar';
+import axios from 'axios';
 
 const UploadPage = () => {
     const [file, setFile] = useState(null);
-    const [alert, setAlert] = useState(null);
+const [alert, setAlert] = useState(null);
+
+// State variables for form inputs
+const [year, setYear] = useState('');
+const [course, setCourse] = useState('');
+const [subject, setSubject] = useState('');
+const [level, setLevel] = useState('');
+const [department, setDepartment] = useState('');
+const [semester, setSemester] = useState('');
 
     const handleFileChange = (event) => {
         const selected = event.target.files[0];
@@ -29,21 +38,50 @@ const UploadPage = () => {
         event.preventDefault();
     };
 
-    const handleUpload = (event) => {
-        event.preventDefault();
-        if (file) {
-            console.log('File uploaded:', file.name);
-            setAlert({ type: 'success', message: 'File uploaded successfully!' });
-            setFile(null);
-        } else {
-            setAlert({ type: 'danger', message: 'No file selected!' });
-        }
-    };
+const handleUpload = async (event) => {
+    event.preventDefault();
 
-    const handleCancel = () => {
+    const formData = new FormData();
+    if (file) {
+        formData.append('document', file);
+    }
+    formData.append('year', year);
+    formData.append('course', course);
+    formData.append('subject', subject);
+    formData.append('level', level);
+    formData.append('department', department);
+    formData.append('semester', semester);
+
+    try {
+        const response = await axios.post('http://127.0.0.1:8001/api/documents/', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        setAlert({ type: 'success', message: 'File uploaded successfully!' });
         setFile(null);
-        setAlert(null);
-    };
+        setYear('');
+        setCourse('');
+        setSubject('');
+        setLevel('');
+        setDepartment('');
+        setSemester('');
+    } catch (error) {
+        setAlert({ type: 'danger', message: 'Upload failed. Please try again.' });
+        console.error('Upload error:', error);
+    }
+};
+
+const handleCancel = () => {
+    setFile(null);
+    setAlert(null);
+    setYear('');
+    setCourse('');
+    setSubject('');
+    setLevel('');
+    setDepartment('');
+    setSemester('');
+};
 
     return (
         <>
@@ -61,28 +99,64 @@ const UploadPage = () => {
 
                         <div className="row mb-3">
                             <div className="col-md-4">
-                                <label className="form-label">Year</label>
-                                <input type="text" className="form-control" placeholder="Enter the Year" />
+<label className="form-label">Year</label>
+<input
+    type="text"
+    className="form-control"
+    placeholder="Enter the Year"
+    value={year}
+    onChange={(e) => setYear(e.target.value)}
+/>
                             </div>
                             <div className="col-md-4">
-                                <label className="form-label">Course</label>
-                                <input type="text" className="form-control" placeholder="Enter the Course" />
+<label className="form-label">Course</label>
+<input
+    type="text"
+    className="form-control"
+    placeholder="Enter the Course"
+    value={course}
+    onChange={(e) => setCourse(e.target.value)}
+/>
                             </div>
                             <div className="col-md-4">
-                                <label className="form-label">Subject</label>
-                                <input type="text" className="form-control" placeholder="Enter the Subject" />
+<label className="form-label">Subject</label>
+<input
+    type="text"
+    className="form-control"
+    placeholder="Enter the Subject"
+    value={subject}
+    onChange={(e) => setSubject(e.target.value)}
+/>
                             </div>
                             <div className="col-md-4">
-                                <label className="form-label">Level</label>
-                                <input type="text" className="form-control" placeholder="Enter level" />
+<label className="form-label">Level</label>
+<input
+    type="text"
+    className="form-control"
+    placeholder="Enter level"
+    value={level}
+    onChange={(e) => setLevel(e.target.value)}
+/>
                             </div>
                             <div className="col-md-4">
-                                <label className="form-label">Department</label>
-                                <input type="text" className="form-control" placeholder="Enter the department" />
+<label className="form-label">Department</label>
+<input
+    type="text"
+    className="form-control"
+    placeholder="Enter the department"
+    value={department}
+    onChange={(e) => setDepartment(e.target.value)}
+/>
                             </div>
                             <div className="col-md-4">
-                                <label className="form-label">Semester</label>
-                                <input type="text" className="form-control" placeholder="Enter Semester " />
+<label className="form-label">Semester</label>
+<input
+    type="text"
+    className="form-control"
+    placeholder="Enter Semester "
+    value={semester}
+    onChange={(e) => setSemester(e.target.value)}
+/>
                             </div>
                         </div>
 
