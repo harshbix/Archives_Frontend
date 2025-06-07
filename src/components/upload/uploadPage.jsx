@@ -106,10 +106,10 @@ const handleCancel = () => {
     onChange={(e) => setYear(e.target.value)}
 >
     <option value="">Select Year</option>
-    <option value="First">First</option>
-    <option value="Second">Second</option>
-    <option value="Third">Third</option>
-    <option value="Fourth">Fourth</option>
+    <option value="first">First</option>
+    <option value="second">Second</option>
+    <option value="third">Third</option>
+    <option value="fourth">Fourth</option>
 </select>
                             </div>
                             <div className="col-md-4">
@@ -140,9 +140,9 @@ const handleCancel = () => {
     onChange={(e) => setLevel(e.target.value)}
 >
     <option value="">Select Level</option>
-    <option value="Bachelor">Bachelor</option>
-    <option value="Diploma">Diploma</option>
-    <option value="Masters">Masters</option>
+    <option value="bachelor">Bachelor</option>
+    <option value="diploma">Diploma</option>
+    <option value="masters">Masters</option>
 </select>
                             </div>
                             <div className="col-md-4">
@@ -166,8 +166,8 @@ const handleCancel = () => {
     onChange={(e) => setSemester(e.target.value)}
 >
     <option value="">Select Semester</option>
-    <option value="First">First</option>
-    <option value="Second">Second</option>
+    <option value="first">First</option>
+    <option value="second">Second</option>
 </select>
                             </div>
                         </div>
