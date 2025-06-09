@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaShareAlt, FaDownload, FaHeart, FaStar } from "react-icons/fa";
 import Navbar from "../navBar/Navbar";
+import DocumentViewer from "./DocumentViewer";
 import "./homePage.css";
 
 function HomePage() {
   const [documents, setDocuments] = useState([]);
+  const [selectedDocument, setSelectedDocument] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({
     year: "",
@@ -133,6 +135,7 @@ const filteredDocuments = documents.filter((doc) => {
               <div className="image-hover">
                 <p className="hover-title">{doc.name}</p>
                 <p className="hover-size">{doc.size}</p>
+                <button className="view-button" onClick={() => setSelectedDocument(doc)}>View</button>
               </div>
             </div>
             <div className="action-container">
@@ -169,6 +172,12 @@ const filteredDocuments = documents.filter((doc) => {
           </div>
         ))}
       </div>
+      {selectedDocument && (
+        <div className="document-viewer-modal">
+          <button className="close-button" onClick={() => setSelectedDocument(null)}>Close</button>
+          <DocumentViewer document={selectedDocument} />
+        </div>
+      )}
     </div>
   );
 }

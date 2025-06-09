@@ -156,6 +156,37 @@ body {
     gap: 16px;
     padding: 50px;
   }
+
+  .document-viewer-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    z-index: 1000;
+    width: 80%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow: auto;
+    padding: 20px;
+  }
+
+  .close-button {
+    background: #0077b6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+
+  .close-button:hover {
+    background: #005f86;
+  }
   
   .document-card {
     display: flex;
@@ -219,6 +250,22 @@ body {
     right: 10px;
     font-size: 0.9rem;
     color: #ccc;
+  }
+
+  .view-button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #0077b6;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .view-button:hover {
+    background-color: #005f86;
   }
   
   .image-container:hover .doc-image {

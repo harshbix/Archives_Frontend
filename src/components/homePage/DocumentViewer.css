@@ -1,0 +1,77 @@
+.document-viewer-container {
+  display: flex;
+  flex-direction: column;
+  background: #f7f7f7;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin: 1rem auto;
+  max-width: 90%;
+}
+
+.viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #537D5D;
+  color: white;
+  padding: 1rem;
+}
+
+.doc-info h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.doc-meta {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.doc-actions button {
+  background: #73946B;
+  color: white;
+  border: none;
+  margin-left: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.viewer-body {
+  display: flex;
+  height: 600px;
+  background: #fff;
+}
+
+.doc-frame {
+  flex: 3;
+  width: 100%;
+  border: none;
+}
+
+.viewer-sidebar {
+  flex: 1;
+  background: #D2D0A0;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+
+.viewer-controls {
+  display: flex;
+  justify-content: center;
+  background: #9EBC8A;
+  padding: 0.75rem;
+}
+
+.viewer-controls button {
+  background: white;
+  border: none;
+  margin: 0 0.5rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
