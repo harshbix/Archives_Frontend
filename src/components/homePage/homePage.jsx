@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaShareAlt, FaDownload, FaHeart, FaStar } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import Navbar from "../navBar/Navbar";
 import DocumentViewer from "./DocumentViewer";
 import "./homePage.css";
@@ -19,21 +20,26 @@ function HomePage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-const fetchDocuments = async () => {
+    const fetchDocuments = async () => {
       setLoading(true);
       setError(null);
       try {
+        // Use the correct backend API endpoint
         const response = await axios.get("http://127.0.0.1:8001/api/documents/");
-        const docs = response.data.map(doc => {
-          if (!doc.name) {
-            return {
-              ...doc,
-              name: doc.course || "Unknown",
-              type: "pdf",
-            };
-          }
-          return doc;
-        });
+        // Map backend fields to frontend fields as needed
+        const docs = response.data.map(doc => ({
+          id: doc.id,
+          name: doc.title || doc.name || doc.course || "Unknown",
+          type: doc.type || "pdf",
+          size: doc.size || "Unknown",
+          url: doc.url,
+          year: doc.year,
+          degree: doc.degree,
+          department: doc.department,
+          semester: doc.semester,
+          rating: doc.rating || 0,
+          liked: doc.liked || false,
+        }));
         setDocuments(docs);
       } catch (err) {
         setError("Failed to fetch documents.");
@@ -57,7 +63,7 @@ const fetchDocuments = async () => {
     }));
   };
 
-const filteredDocuments = documents.filter((doc) => {
+  const filteredDocuments = documents.filter((doc) => {
     return (
       doc.name && doc.name.toLowerCase().includes(searchQuery) &&
       (filters.year === "" || doc.year === filters.year) &&
@@ -135,7 +141,9 @@ const filteredDocuments = documents.filter((doc) => {
               <div className="image-hover">
                 <p className="hover-title">{doc.name}</p>
                 <p className="hover-size">{doc.size}</p>
-                <button className="view-button" onClick={() => setSelectedDocument(doc)}>View</button>
+                <Link to={`/documents/${doc.id}`}>
+                  <button>View</button>
+                </Link>
               </div>
             </div>
             <div className="action-container">

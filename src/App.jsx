@@ -3,15 +3,16 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/login/login';
 import UploadPage from './components/upload/uploadPage';
 import HomePage from './components/homePage/homePage';
+import DocumentViewer from './components/documentViewer/DocumentViewer'; // New import
 
 function App() {
   const [loggedInRole, setLoggedInRole] = useState(() => {
-    return localStorage.getItem("role") || null;  // Ensure null if no role
+    return localStorage.getItem("role") || null;
   });
 
   const handleLoginSuccess = (role) => {
     localStorage.setItem("role", role);
-    setLoggedInRole(role);  // Triggers re-render and redirect
+    setLoggedInRole(role);
   };
 
   const handleLogout = () => {
@@ -22,6 +23,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Existing routes (unchanged) */}
         <Route
           path="/"
           element={
@@ -51,6 +53,18 @@ function App() {
               <div>
                 <HomePage onLogout={handleLogout} />
               </div>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        
+        {/* New document viewer route - accessible to both roles */}
+        <Route
+          path="/documents/:documentId"
+          element={
+            loggedInRole ? ( // Any authenticated user
+              <DocumentViewer onLogout={handleLogout} />
             ) : (
               <Navigate to="/" />
             )

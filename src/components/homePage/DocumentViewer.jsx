@@ -1,50 +1,86 @@
-import React from "react";
-import "./DocumentViewer.css";
-import { FaDownload, FaShareAlt, FaHeart, FaExpand, FaSearchPlus, FaSearchMinus } from "react-icons/fa";
+// src/components/documentViewer/DocumentViewer.jsx
+import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { IoArrowBack } from 'react-icons/io5';
+import { getDocumentById } from "../../api/documents";
+import './DocumentViewer.css';
 
-const DocumentViewer = ({ document }) => {
+export default function DocumentViewer({ onLogout }) {
+  const { documentId } = useParams();
+  const [document, setDocument] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDocument = async () => {
+      try {
+        const doc = await getDocumentById(documentId);
+        setDocument(doc);
+      } catch (error) {
+        console.error("Failed to load document:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchDocument();
+  }, [documentId]);
+
   return (
-    <div className="document-viewer-container">
+    
+    <div className="document-viewer">
+      <h1>DOCUMENT VIEWER</h1>
       {/* Header */}
-      <div className="viewer-header">
-        <div className="doc-info">
-          <h2>{document.title}</h2>
-          <span className="doc-meta">{document.type.toUpperCase()} • {document.size}</span>
+      <header className="header">
+        <div className="header-container">
+          <button 
+            onClick={() => window.history.back()}
+            className="back-button"
+          >
+            <IoArrowBack className="back-icon" />
+            Back to Archive
+          </button>
+          
+          <button 
+            onClick={onLogout}
+            className="logout-button"
+          >
+            Logout
+          </button>
         </div>
-        <div className="doc-actions">
-          <button><FaDownload /> Download</button>
-          <button><FaShareAlt /> Share</button>
-          <button><FaHeart /> Like</button>
-        </div>
-      </div>
+      </header>
 
-      {/* Viewer */}
-      <div className="viewer-body">
-        <iframe 
-          src={document.url} 
-          title={document.title} 
-          frameBorder="0" 
-          className="doc-frame"
-        ></iframe>
-
-        {/* Sidebar Info */}
-        <div className="viewer-sidebar">
-          <p><strong>Uploaded by:</strong> {document.uploader}</p>
-          <p><strong>Date:</strong> {document.uploadDate}</p>
-          <p><strong>Category:</strong> {document.category}</p>
-          <p><strong>Program:</strong> {document.program}</p>
-          <p><strong>Semester/Year:</strong> {document.semester}</p>
-        </div>
-      </div>
-
-      {/* Controls */}
-      <div className="viewer-controls">
-        <button><FaSearchMinus /></button>
-        <button><FaSearchPlus /></button>
-        <button><FaExpand /></button>
-      </div>
+      {/* Document Container */}
+      <main className="main-content">
+        {isLoading ? (
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+          </div>
+        ) : document ? (
+          <div className="document-container">
+            {/* Document Metadata */}
+            <div className="document-header">
+              <h1 className="document-title">{document.title}</h1>
+              <p className="document-date">
+                Uploaded: {new Date(document.uploadDate).toLocaleDateString()}
+              </p>
+            </div>
+            
+            {/* Document Embed */}
+            <div className="document-embed">
+              <iframe 
+                src={document.url} 
+                className="document-iframe"
+                title={document.title}
+                frameBorder="0"
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="error-container">
+            <p className="error-message">Document not found</p>
+          </div>
+        )}
+      </main>
     </div>
   );
-};
-
-export default DocumentViewer;
+}
