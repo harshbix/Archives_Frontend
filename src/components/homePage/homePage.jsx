@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../navBar/Navbar";
 import DocumentViewer from "./DocumentViewer";
 import "./homePage.css";
+import mockDocuments from "../../api/mockDocuments";
 
 function HomePage() {
   const [documents, setDocuments] = useState([]);
@@ -20,36 +21,13 @@ function HomePage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchDocuments = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        // Use the correct backend API endpoint
-        const response = await axios.get("http://127.0.0.1:8001/api/documents/");
-        // Map backend fields to frontend fields as needed
-        const docs = response.data.map(doc => ({
-          id: doc.id,
-          name: doc.title || doc.name || doc.course || "Unknown",
-          type: doc.type || "pdf",
-          size: doc.size || "Unknown",
-          url: doc.url,
-          year: doc.year,
-          degree: doc.degree,
-          department: doc.department,
-          semester: doc.semester,
-          rating: doc.rating || 0,
-          liked: doc.liked || false,
-        }));
-        setDocuments(docs);
-      } catch (err) {
-        setError("Failed to fetch documents.");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDocuments();
+    // For testing, use mock data instead of API call
+    setLoading(true);
+    setError(null);
+    setTimeout(() => {
+      setDocuments(mockDocuments);
+      setLoading(false);
+    }, 500); // Simulate network delay
   }, []);
 
   const handleSearch = (query) => {
