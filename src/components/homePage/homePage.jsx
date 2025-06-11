@@ -21,13 +21,28 @@ function HomePage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // For testing, use mock data instead of API call
     setLoading(true);
     setError(null);
-    setTimeout(() => {
-      setDocuments(mockDocuments);
-      setLoading(false);
-    }, 500); // Simulate network delay
+    axios.get("http://127.0.0.1:8001/api/documents")
+      .then((response) => {
+        // Map backend docs to match mock structure
+        const backendDocs = response.data.map(doc => ({
+          ...doc,
+         name: doc.name || doc.title || doc.subject || "Untitled",
+          id: doc.id,
+          type: doc.type || "pdf", // or whatever type field you expect
+          size: doc.size || doc.fileSize || "Unknown size",
+          rating: doc.rating || 0,
+          liked: doc.liked || false,
+        }));
+        setDocuments([...backendDocs, ...mockDocuments]);
+        setLoading(false);
+      })
+      .catch(() => {
+        setDocuments([...mockDocuments]);
+        setError("Failed to fetch from backend, showing mock data only.");
+        setLoading(false);
+      });
   }, []);
 
   const handleSearch = (query) => {

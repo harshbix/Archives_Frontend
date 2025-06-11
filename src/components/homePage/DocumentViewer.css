@@ -43,19 +43,43 @@
   margin-right: 0.25rem;
 }
 
-.logout-button {
-  padding: 0.5rem 1rem;
-  background-color: #fef2f2;
-  color: #b91c1c;
+/* Download Header Button */
+.download-header-button {
+  display: flex;
+  align-items: center;
+  background: #1976d2;
+  color: #fff;
   border: none;
-  border-radius: 0.375rem;
+  border-radius: 12px;
+  padding: 8px 12px;
   cursor: pointer;
-  font-size: 0.875rem;
-  transition: background-color 0.2s ease;
+  transition: background 0.2s;
+  overflow: hidden;
+  position: relative;
 }
 
-.logout-button:hover {
-  background-color: #fecaca;
+.download-header-button .download-icon {
+  font-size: 1.5em;
+  transition: margin-right 0.2s;
+}
+
+.download-header-button .download-text {
+  max-width: 0;
+  opacity: 0;
+  margin-left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: max-width 0.3s, opacity 0.3s, margin-left 0.3s;
+}
+
+.download-header-button:hover {
+  background: #125ea2;
+}
+
+.download-header-button:hover .download-text {
+  max-width: 120px;
+  opacity: 1;
+  margin-left: 8px;
 }
 
 /* Main Content - Three Column Layout */
@@ -324,83 +348,6 @@
 
 .action-button.download:hover {
   background-color: #ecfdf5;
-}
-
-.action-button.edit {
-  color: #3b82f6;
-  border-color: #3b82f6;
-}
-
-.action-button.edit:hover {
-  background-color: #eff6ff;
-}
-
-.action-button.delete {
-  color: #dc2626;
-  border-color: #dc2626;
-}
-
-.action-button.delete:hover {
-  background-color: #fef2f2;
-}
-
-.approval-section {
-  padding: 1.5rem;
-  border-top: 1px solid #e5e7eb;
-}
-
-.reason-textarea {
-  width: 100%;
-  min-height: 100px;
-  padding: 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  resize: vertical;
-  margin-bottom: 1rem;
-}
-
-.reason-textarea:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.approval-buttons {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.reject-button {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  background-color: white;
-  color: #ef4444;
-  border: 1px solid #ef4444;
-  border-radius: 0.375rem;
-  cursor: pointer;
-  font-size: 0.875rem;
-  transition: all 0.2s ease;
-}
-
-.reject-button:hover {
-  background-color: #fef2f2;
-}
-
-.approve-button {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  background-color: #22c55e;
-  color: white;
-  border: 1px solid #22c55e;
-  border-radius: 0.375rem;
-  cursor: pointer;
-  font-size: 0.875rem;
-  transition: all 0.2s ease;
-}
-
-.approve-button:hover {
-  background-color: #16a34a;
 }
 
 /* Loading and Error States */

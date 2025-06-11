@@ -62,19 +62,20 @@ export default function DocumentViewer({ onLogout }) {
     <div className="document-viewer">
       {/* Header */}
       <header className="header">
-        <div className="header-container">
-          <button 
-            onClick={() => window.history.back()}
-            className="back-button"
-          >
-            <IoArrowBack className="back-icon" />
-            Back to Archive
-          </button>
-          <button onClick={onLogout} className="logout-button">
-            Logout
-          </button>
-        </div>
-      </header>
+  <div className="header-container">
+    <button 
+      onClick={() => window.history.back()}
+      className="back-button"
+    >
+      <IoArrowBack className="back-icon" />
+      Back to Archive
+    </button>
+    <button onClick={handleDownload} className="download-header-button">
+      <IoDownload className="download-icon" />
+      <span className="download-text">Download</span>
+    </button>
+  </div>
+</header>
 
       {/* Loading State */}
       {isLoading && (
@@ -196,35 +197,6 @@ export default function DocumentViewer({ onLogout }) {
             </div>
           </div>
           
-          <div className="action-buttons">
-            <button onClick={handleDownload} className="action-button download">
-              <IoDownload />
-              Download
-            </button>
-            <button onClick={handleEdit} className="action-button edit">
-              <IoCreate />
-              Edit
-            </button>
-            <button onClick={handleDelete} className="action-button delete">
-              <IoTrash />
-              Delete
-            </button>
-          </div>
-          
-          <div className="approval-section">
-            <textarea 
-              placeholder="Write your reasons here..."
-              className="reason-textarea"
-            ></textarea>
-            <div className="approval-buttons">
-              <button onClick={handleReject} className="reject-button">
-                Reject
-              </button>
-              <button onClick={handleApprove} className="approve-button">
-                Approve
-              </button>
-            </div>
-          </div>
         </aside>
         </main>
         
