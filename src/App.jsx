@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/login/login';
 import UploadPage from './components/upload/uploadPage';
 import HomePage from './components/homePage/homePage';
-import DocumentViewer from './components/documentViewer/DocumentViewer'; // New import
+import DocumentViewer from './components/homePage/DocumentViewer'; // New import
 
 function App() {
   const [loggedInRole, setLoggedInRole] = useState(() => {
