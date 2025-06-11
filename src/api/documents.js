@@ -1,13 +1,10 @@
 // src/api/documents.js
 import apiClient from './apiClient';
+import mockDocuments from './mockDocuments';
 
 export const getDocumentById = async (id) => {
-  const response = await fetch(`/api/documents/${id}`, {
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
-  });
-  
-  if (!response.ok) throw new Error('Failed to fetch document');
-  return await response.json();
+  // Try to find the document in mock data
+  const doc = mockDocuments.find(d => String(d.id) === String(id));
+  if (!doc) throw new Error('Document not found');
+  return doc;
 };
